@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .CategoryModel import Category
+from categories.Model.CategoryModel import Category
 
 class CategorySerializer(serializers.ModelSerializer):
     url = serializers.HyperlinkedIdentityField(

@@ -42,11 +42,13 @@ INSTALLED_APPS = [
 
     'rest_framework',
     'django_filters',
+    'rest_framework_swagger',
 
     # apps
     'orders',
     'products',
     'shopping_cart',
+    'categories',
 ]
 
 MIDDLEWARE = [

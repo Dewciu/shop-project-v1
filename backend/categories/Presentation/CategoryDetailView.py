@@ -1,7 +1,7 @@
 from django.shortcuts import get_object_or_404
 from rest_framework import generics
-from products.Model.CategoryModel import Category
-from products.Model.CategoryDetailSerializer import CategoryDetailSerializer
+from categories.Model.CategoryModel import Category
+from categories.Model.CategoryDetailSerializer import CategoryDetailSerializer
 
 class CategoryDetailView(generics.RetrieveAPIView):
     queryset = Category.objects.all()
