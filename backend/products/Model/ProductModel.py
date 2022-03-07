@@ -10,7 +10,7 @@ class Product(models.Model):
 
    
     def get_price(self):
-        return "%.2f" %(float(self.base_price)*float(self.sale_discount))
+        return float(self.base_price)*float(self.sale_discount)
 
     def __str__(self):
         return self.name
