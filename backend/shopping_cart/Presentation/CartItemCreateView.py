@@ -1,27 +1,30 @@
-from rest_framework import generics, mixins
+from rest_framework import generics
 from shopping_cart.Model.CartItemModel import CartItem
 from shopping_cart.Model.CartItemSerializer import CartItemSerializer
+from shopping_cart.Model.CartItemModel import CartItem
 
-class CartItemView(mixins.DestroyModelMixin, mixins.CreateModelMixin, mixins.UpdateModelMixin, mixins.RetrieveModelMixin, generics.GenericAPIView):
+
+class CartItemCreateView(generics.CreateAPIView):
     queryset = CartItem.objects.all()
     serializer_class = CartItemSerializer
-    # lookup_field = 'pk'
 
-    # def get(self, request, *args, **kwargs):
-    #     return self.retrieve(request, *args, **kwargs)
+    def perform_create(self, serializer):
+        if serializer.is_valid():
+            product = serializer.validated_data.get('product')
+            cart = serializer.validated_data.get('cart')
+            quantity = serializer.validated_data.get('quantity')
     
-    def post(self, request, *args, **kwargs):
-        cart = kwargs.get('cart')
-        if cart is not None:
-            return self.update(request, *args, **kwargs)
-        else:
-            return self.create(request, *args, **kwargs)
-        
+            product_exists = CartItem.objects.filter(product = product, cart=cart)
 
-    # def create(self, request, *args, **kwargs):
-    #     return self.create(request, *args, **kwargs)
+            if product_exists:
+                
+                existing_product = CartItem.objects.get(product=product, cart=cart)
+                existing_product.quantity = quantity + existing_product.quantity
+                print(existing_product.quantity)
+                existing_product.save()
+               
+            else:
 
-    # def retrieve(self, request, *args, **kwargs):
-    #     return super().retrieve(request, *args, **kwargs)
+                serializer.save()
     
-cart_item_view = CartItemView.as_view()
+cart_item_create_view = CartItemCreateView.as_view()

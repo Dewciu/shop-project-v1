@@ -14,4 +14,8 @@ class CartItemSerializer(serializers.ModelSerializer):
         ]
 
     def get_item_price(self, obj):
+        # if not hasattr(obj, 'pk'):
+        #     return None
+        if not isinstance(obj, CartItem):
+            return None
         return obj.get_item_price()
